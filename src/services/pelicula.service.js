@@ -20,4 +20,7 @@ class PeliculaDataService {
   }
 }
 
-export default new PeliculaDataService();
+const peliculaDataService = new PeliculaDataService();
+
+
+export default new peliculaDataService();

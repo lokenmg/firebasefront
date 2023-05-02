@@ -80,7 +80,7 @@ export default class PeliculasList extends Component {
 
                                     <div>{tutorial.description}</div>
                                     <div>
-                                        <img src={tutorial.url}></img>
+                                        <img src={tutorial.url} alt="imagen"></img>
                                     </div>
                                 </li>
                             ))}
