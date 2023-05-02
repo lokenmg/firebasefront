@@ -23,4 +23,4 @@ class PeliculaDataService {
 const peliculaDataService = new PeliculaDataService();
 
 
-export default new peliculaDataService;
+export default peliculaDataService;
