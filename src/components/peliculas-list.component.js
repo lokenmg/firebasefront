@@ -2,6 +2,19 @@ import React, { Component } from "react";
 import PeliculaDataService from "../services/pelicula.service";
 import Pelicula from "./pelicula.component";
 
+import LikeButton from "./reactions/LikeButton.component";
+import LoveButton from "./reactions/LoveButton.component";
+import SadButton from "./reactions/SadButton.component";
+import WowButton from "./reactions/WowButton.component";
+import AngryButton from "./reactions/AngryButton.component";
+import HahaButton from "./reactions/HahaButton.component";
+import CareButton from "./reactions/CareButton.component";
+import CommentComponent from "./comment.component";
+
+import { Container, ListGroup, Col, Row, Card } from "react-bootstrap";
+
+
+
 export default class PeliculasList extends Component {
     constructor(props) {
         super(props);
@@ -61,45 +74,68 @@ export default class PeliculasList extends Component {
     }
 
     render() {
-        const { peliculas, currentPelicula, currentIndex } = this.state;
+        const { peliculas, currentPelicula} = this.state;
 
         return (
-            <div className="list row">
-                <div className="col-md-6">
-                    <h4>peliculas List</h4>
+            <Container className="mx-auto">
+            <Row>
+                <Col md="auto">
+                    <h4>Peliculas List</h4>
 
-                    <ul className="list-group">
-                        {peliculas &&
-                            peliculas.map((tutorial, index) => (
-                                <li
-                                    className={"list-group-item " + (index === currentIndex ? "active" : "")}
-                                    onClick={() => this.setActiveTutorial(tutorial, index)}
-                                    key={index}
-                                >
-                                    {tutorial.title}
+                    <ListGroup>
+                        <Card style={ {backgroundColor:'rgba(0, 0, 0, 0.391)'} } >
+                            {peliculas &&
+                                peliculas.map((tutorial, index) => (
+                                    <ListGroup.Item
+                                        style={{ margin: '10px' }}
+                                        onClick={() => this.setActiveTutorial(tutorial, index)}
+                                        key={index}
+                                    >
+                                        <Card.Body style={{ borderRadius: 10, boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', transition: '0.3s' }} > 
+                                        <Card.Header>
+                                            <Card.Title>
+                                                {tutorial.title}
+                                            </Card.Title>
+                                        </Card.Header>
+                                        <Card.Body >
+                                            <Card.Subtitle>
+                                                {tutorial.description}
+                                            </Card.Subtitle>
+                                            <Card.Img style={{border: '1px solid black', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', transition: '0.3s' }} className="m-3" variant="top" src={tutorial.url} alt="img" fluid />
+                                            
+                                            <div className="d-flex  align-items-auto m-1">
+                                                <LikeButton />
+                                                <LoveButton />
+                                                <SadButton />
+                                                <WowButton />
+                                                <AngryButton />
+                                                <HahaButton />
+                                                <CareButton />
+                                            </div>
+                                            <Card.Footer>
+                                                <Card.Title>Agregar comentarios</Card.Title>
+                                                <CommentComponent />
+                                                </Card.Footer>                                            
+                                        </Card.Body>
+                                        <Card.Body >
+                                                {currentPelicula ? (
+                                                    <Pelicula pelicula={currentPelicula} refreshList={this.refreshList} />
+                                                ) : (
+                                                    <div>
+                                                    </div>
+                                                )}
+                                            
+                                        </Card.Body>
+                                        </Card.Body>
+                                    </ListGroup.Item>
+                                ))}
 
-                                    <div>{tutorial.description}</div>
-                                    <div>
-                                        <img src={tutorial.url} alt="imagen"></img>
-                                    </div>
-                                </li>
-                            ))}
-                    </ul>
-                </div>
-                <div className="col-md-6">
-                    {currentPelicula ? (
-                        <Pelicula
-                            pelicula={currentPelicula}
-                            refreshList={this.refreshList}
-                        />
-                    ) : (
-                        <div>
-                            <br />
-                            <p>Please click on a Pelicula...</p>
-                        </div>
-                    )}
-                </div>
-            </div>
+                        </Card>
+                    </ListGroup>
+                </Col>
+
+            </Row>
+            </Container>
         );
     }
 }
