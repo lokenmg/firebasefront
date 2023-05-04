@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PeliculaDataService from "../services/pelicula.service";
 import "firebase/compat/storage";
 import firebase from "firebase/compat/app";
-import { Button, Form, Image } from "react-bootstrap";
+import { Button, Form} from "react-bootstrap";
 export const storage = firebase.storage();
 
 export default class AddPelicula extends Component {
