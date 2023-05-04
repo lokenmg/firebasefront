@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PeliculaDataService from "../services/pelicula.service";
-
 import "firebase/compat/storage";
 import firebase from "firebase/compat/app";
+import { Button, Form} from "react-bootstrap";
 export const storage = firebase.storage();
 
 export default class AddPelicula extends Component {
@@ -12,6 +12,8 @@ export default class AddPelicula extends Component {
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.savePelicula = this.savePelicula.bind(this);
     this.newPelicula = this.newPelicula.bind(this);
+    this.onChangeFile = this.onChangeFile.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
 
     this.state = {
       title: "",
@@ -29,7 +31,6 @@ export default class AddPelicula extends Component {
     });
   }
 
-  
   handleUpload(e, file) {
     const acceptedImageTypes = ['image/jpeg', 'image/png'];
     e.preventDefault();
@@ -70,7 +71,7 @@ export default class AddPelicula extends Component {
 
   savePelicula() {
     console.log(this.state.url, this.state.title, this.state.description);
-    if(this.state.url==="" || this.state.title==="" || this.state.description===""){
+    if (this.state.url === "" || this.state.title === "" || this.state.description === "") {
       alert('algun campo esta vacio');
       return;
     }
@@ -111,56 +112,55 @@ export default class AddPelicula extends Component {
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={this.newPelicula}>
+            <Button variant="success" onClick={this.newPelicula}>
               Add
-            </button>
+            </Button>
           </div>
         ) : (
           <div>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                required
-                value={this.state.title}
-                onChange={this.onChangeTitle}
-                name="title"
-              />
-            </div>
+            <Form>
+              <Form.Group controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  value={this.state.title}
+                  onChange={this.onChangeTitle}
+                  name="title"
+                />
+              </Form.Group>
 
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                required
-                value={this.state.description}
-                onChange={this.onChangeDescription}
-                name="description"
-              />
-            </div>
+              <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  required
+                  value={this.state.description}
+                  onChange={this.onChangeDescription}
+                  name="description"
+                />
+              </Form.Group>
+              <Form.Group controlId="image">
+            <Form.Label>Image</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={(e) => this.onChangeFile(e)}
+              name="image"
+            />
+          </Form.Group>
 
-            <div>
-              <form onSubmit={(event) => {
-                this.handleUpload(event, this.state.file)
-              }} >
-                <input type="file" onChange={(event) => {
-                  this.onChangeFile(event)
-                }} />
-                <button disabled={!this.state.file}>upload to firebase</button>
-              </form>
-              <img src={this.url} alt="" />
-            </div>
+          <Button className="2-m" variant="primary" onClick={(e) => this.handleUpload(e, this.state.file)}>
+            Upload
+          </Button>
 
-            <button onClick={this.savePelicula} className="btn btn-success">
-              Submit
-            </button>
-          </div>
-        )}
+          <Button variant="success" onClick={this.savePelicula}>
+            Submit
+          </Button>
+        </Form>
       </div>
-    );
+    )}
+  </div>
+);
   }
 }
