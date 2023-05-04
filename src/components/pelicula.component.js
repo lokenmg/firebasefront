@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PeliculaDataService from "../services/pelicula.service";
+import Button from 'react-bootstrap/Button';
 
 import "firebase/compat/storage";
 import firebase from "firebase/compat/app";
@@ -160,36 +161,32 @@ export default class Pelicula extends Component {
             </form>
 
             {currentPelicula.published ? (
-              <button
-                className="badge badge-primary mr-2"
+              <Button variant="outline-success"
                 onClick={() => this.updatePublished(false)}
               >
                 UnPublish
-              </button>
+              </Button> 
             ) : (
-              <button
-                className="badge badge-primary mr-2"
+              <Button
+              variant="outline-warning"
                 onClick={() => this.updatePublished(true)}
               >
                 Publish
-              </button>
+              </Button> 
             )}
 
-            <button
-              className="badge badge-danger mr-2"
+            <Button variant="outline-danger"
               onClick={this.deletePelicula}
             >
               Delete
-            </button>
+            </Button>
 
-            <button
-              id=""
-              type="submit"
-              className="badge badge-success"
+            <Button
+              Button variant="outline-success"
               onClick={this.updatePelicula}
             >
               Update
-            </button>
+            </Button>
             <p>{this.state.message}</p>
           </div>
         ) : (
