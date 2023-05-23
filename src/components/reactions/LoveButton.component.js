@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import love from '../../img/love.png';
 import { Button, Image } from 'react-bootstrap';
+import kafkaService from '../../services/kafka.service';
 
 
 function LoveButton() {
@@ -9,10 +10,26 @@ function LoveButton() {
     const buttonStyle = {
         backgroundColor: 'transparent',
     };
+
+    function saveLike(e, status) {
+  
+        let data = {
+          id: 0,
+          status: status
+        };
+     
+        console.log(JSON.stringify(data));
+     
+        kafkaService.reaction("love");
+        e.preventDefault();
+    }
+   
     return (
         <Button variant="outline-dark" style={buttonStyle}
             className={`like-button ${loved ? 'liked' : ''}`}
-            onClick={() => {
+            onClick={(e) => {
+                e.preventDefault();
+                saveLike(e, 1)
                 setLikes(loves + 1);
                 setLiked(true);
             }}
