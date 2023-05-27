@@ -1,12 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import PeliculaTutorial from "./components/add-pelicula.component";
 import PeliculasList from "./components/peliculas-list.component";
+import { Login } from "./components/usersComponents/Login";
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
+import { Logout } from './components/usersComponents/Logout';
+import { Register } from './components/usersComponents/Register';
+import { Perfil } from './components/usersComponents/Perfil';
 
 class App extends Component {
+
+
   render() {
     return (
       <div>
@@ -25,15 +33,42 @@ class App extends Component {
                 Crear publicacion
               </Link>
             </li>
+            <li className='nav-item'>
+              <Link to={"/perfil"} className='nav-link'>
+                Ver perfil
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <AuthProvider>
+                <Logout />
+              </AuthProvider>
+            </li>
           </div>
         </nav>
 
         <div className="container mt-3">
-          <h2>Publicaciones</h2>
-          <Routes>
-            <Route path="peliculas" element={<PeliculasList/>} />
-            <Route path="add" element={<PeliculaTutorial/>} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path='login' element={<Login />} />
+              <Route path='register' element={<Register />} />
+              <Route path="peliculas" element={
+                <ProtectedRoute>
+                  <PeliculasList />
+                </ProtectedRoute>
+              } />
+              <Route path="add" element={
+                <ProtectedRoute>
+                  <PeliculaTutorial />
+                </ProtectedRoute>
+              } />
+              <Route path="perfil" element={
+                <ProtectedRoute>
+                  <Perfil />
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </AuthProvider>
+
         </div>
       </div>
     );
