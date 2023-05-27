@@ -5,6 +5,8 @@ import firebase from "firebase/compat/app";
 import { Button, Form} from "react-bootstrap";
 export const storage = firebase.storage();
 
+
+
 export default class AddPelicula extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ export default class AddPelicula extends Component {
       file: null
     };
   }
+
 
   onChangeFile(e) {
     this.setState({
