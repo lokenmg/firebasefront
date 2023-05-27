@@ -2,22 +2,37 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyClodWq5ZVSG38FEfmQPxB4HY-x2LIuAyk",
-  authDomain: "peliculas-27004.firebaseapp.com",
-  projectId: "peliculas-27004",
-  storageBucket: "peliculas-27004.appspot.com",
-  messagingSenderId: "593234182523",
-  appId: "1:593234182523:web:a6d4053122915331e67dde",
-  measurementId: "G-9DS8Y695MP"
+
+  apiKey: "AIzaSyBMCm5WC8g2CD7Vu43VtT__F01pIg5on50",
+
+  authDomain: "peliculasnosql.firebaseapp.com",
+
+  projectId: "peliculasnosql",
+
+  storageBucket: "peliculasnosql.appspot.com",
+
+  messagingSenderId: "46511343029",
+
+  appId: "1:46511343029:web:8a794ce3d3ab163a8b45fc",
+
+  measurementId: "G-6KMPZR6GQV"
+
 };
+
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const firestore = firebaseApp.firestore();
 const storage = firebase.storage();
+const app = firebase.initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 export {
   storage,
-  firestore as default
+  firestore as default,
+  app,
+  auth
 };
