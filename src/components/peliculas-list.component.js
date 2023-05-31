@@ -12,6 +12,7 @@ import CareButton from "./reactions/CareButton.component";
 import CommentComponent from "./comment.component";
 
 import { Container, ListGroup, Col, Row, Card } from "react-bootstrap";
+import { AuthProvider } from "../context/AuthContext";
 
 
 
@@ -104,17 +105,19 @@ export default class PeliculasList extends Component {
                                             <Card.Img style={{border: '1px solid black', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', transition: '0.3s' }} className="m-3" variant="top" src={tutorial.url} alt="img" fluid />
                                             
                                             <div className="d-flex  align-items-auto m-1">
-                                                <LikeButton />
-                                                <LoveButton />
-                                                <SadButton />
-                                                <WowButton />
-                                                <AngryButton />
-                                                <HahaButton />
-                                                <CareButton />
+                                                <AuthProvider>
+                                                    <LikeButton  pubId={tutorial.id}/>
+                                                    <LoveButton  pubId={tutorial.id}/>
+                                                    <SadButton   pubId={tutorial.id}/>
+                                                    <WowButton   pubId={tutorial.id}/>
+                                                    <AngryButton pubId={tutorial.id}/>
+                                                    <HahaButton  pubId={tutorial.id}/>
+                                                    <CareButton  pubId={tutorial.id}/>
+                                                </AuthProvider>
                                             </div>
                                             <Card.Footer>
                                                 <Card.Title>Agregar comentarios</Card.Title>
-                                                <CommentComponent />
+                                                <CommentComponent pubId={tutorial.id}/>
                                                 </Card.Footer>                                            
                                         </Card.Body>
                                         <Card.Body >

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button, Image } from 'react-bootstrap';
 import care from '../../img/care.png';
 import kafkaService from '../../services/kafka.service';
+import { useAuth } from '../../context/AuthContext';
 
-function CareButton() {
+function CareButton({pubId}) {
+    const {user}= useAuth();
     const [cares, setLikes] = useState(0);
     const [cared, setLiked] = useState(false);
 
@@ -11,16 +13,11 @@ function CareButton() {
         backgroundColor: 'transparent',
     };
 
-    function saveLike(e, status) {
-  
-        let data = {
-          id: 0,
-          status: status
-        };
-     
-        console.log(JSON.stringify(data));
-     
-        kafkaService.reaction("care");
+    function saveLike(e) {
+        const uId= user.uid;    
+        const oId= pubId;
+        const rId= "care"
+        kafkaService.reaction(uId, oId, rId);
         e.preventDefault();
     }
    

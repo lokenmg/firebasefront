@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import React from 'react';
 
 export function Logout(){
     const { logout } = useAuth();

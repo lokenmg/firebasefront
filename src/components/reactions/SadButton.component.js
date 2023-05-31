@@ -2,24 +2,21 @@ import React, { useState } from 'react';
 import sad from '../../img/sad.png';
 import { Button, Image } from 'react-bootstrap';
 import kafkaService from '../../services/kafka.service';
+import { useAuth } from '../../context/AuthContext'; 
 
-function SadButton() {
+function SadButton({pubId}) {
+    const {user}= useAuth();
     const [sads, setLikes] = useState(0);
     const [saded, setLiked] = useState(false);
     const buttonStyle = {
         backgroundColor: 'transparent',
     };
 
-    function saveLike(e, status) {
-  
-        let data = {
-          id: 0,
-          status: status
-        };
-     
-        console.log(JSON.stringify(data));
-     
-        kafkaService.reaction("sad");
+    function saveLike(e) {
+        const uId= user.uid;    
+        const oId= pubId;
+        const rId= "sad"
+        kafkaService.reaction(uId, oId, rId);
         e.preventDefault();
     }
    

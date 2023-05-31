@@ -1,5 +1,6 @@
 import { useAuth } from "../../context/AuthContext";
 import { Image, Container, Row, Col, Card } from "react-bootstrap";
+import React from "react";
 export function Perfil() {
     const { user } = useAuth();
 

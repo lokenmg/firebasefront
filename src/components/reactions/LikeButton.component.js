@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import like from '../../img/like.png';
 import { Button, Image } from 'react-bootstrap';
 import kafkaService from '../../services/kafka.service';
+import { useAuth } from '../../context/AuthContext'; 
+const MongoDBService = require('../../services/MongoDb.service');
 
-function LikeButton() {
+function LikeButton({pubId}) {
+    const {user}= useAuth();
     const [likes, setLikes] = useState(0);
     const [liked, setLiked] = useState(false);
 
@@ -11,16 +14,11 @@ function LikeButton() {
         backgroundColor: 'transparent',
     };
 
-    function saveLike(e, status) {
-
-        let data = {
-            id: 0,
-            status: status
-        };
-
-        console.log(JSON.stringify(data));
-
-        kafkaService.reaction("like");
+    function saveLike(e) {
+        const uId= user.uid;    
+        const oId= pubId;
+        const rId= "like"
+        kafkaService.reaction(uId, oId, rId);
         e.preventDefault();
     }
 

@@ -2,25 +2,22 @@ import React, { useState } from 'react';
 import wow from '../../img/wow.png';
 import { Button, Image } from 'react-bootstrap';
 import kafkaService from '../../services/kafka.service';
+import { useAuth } from '../../context/AuthContext'; 
 
 
-function WowButton() {
+function WowButton({pubId}) {
+    const {user}= useAuth();
     const [wows, setLikes] = useState(0);
     const [woww, setLiked] = useState(false);
     const buttonStyle = {
         backgroundColor: 'transparent',
     };
 
-    function saveLike(e, status) {
-  
-        let data = {
-          id: 0,
-          status: status
-        };
-     
-        console.log(JSON.stringify(data));
-     
-        kafkaService.reaction("wow");
+    function saveLike(e) {
+        const uId= user.uid;    
+        const oId= pubId;
+        const rId= "wow"
+        kafkaService.reaction(uId, oId, rId);
         e.preventDefault();
     }
    

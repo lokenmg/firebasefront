@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import haha from '../../img/haha.png';
 import kafkaService from '../../services/kafka.service';
+import { useAuth } from '../../context/AuthContext'; 
 
 import { Button, Image } from 'react-bootstrap';
 
 
-function SadButton() {
+function SadButton({pubId}) {
+    const {user}= useAuth();
     const [hahas, setLikes] = useState(0);
     const [hahad, setLiked] = useState(false);
 
@@ -14,15 +16,10 @@ function SadButton() {
     };
 
     function saveLike(e, status) {
-
-        let data = {
-            id: 0,
-            status: status
-        };
-
-        console.log(JSON.stringify(data));
-
-        kafkaService.reaction("haha");
+        const uId= user.uid;    
+        const oId= pubId;
+        const rId= "haha"
+        kafkaService.reaction(uId, oId, rId);
         e.preventDefault();
     }
 

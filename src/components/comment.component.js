@@ -1,23 +1,38 @@
 import React, { useState } from 'react';
 import { Form, Button, ListGroup } from 'react-bootstrap';
 import '../App.css';
+import kafkaService from '../services/kafka.service';
+import { useAuth } from '../context/AuthContext';
 
-const CommentComponent = () => {
+const CommentComponent = ({pubId}) => {
+  const {user}= useAuth();
+
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+
+  function saveComment(comm) {
+    const uId=    user.uid;    
+    const oId=   pubId;
+    const comment=comm.content;
+    //console.log("user id", uId, "object id", oId, "comentario", comment);
+    kafkaService.comment(uId, oId, comment);
+
+  }
+
 
   const handleAddComment = () => {
     if (newComment.trim() === '') {
       return; // Evitar agregar comentarios vacíos
     }
     const comment = { id: Date.now(), content: newComment };
+    saveComment(comment);
     setComments((prevComments) => [...prevComments, comment]);
     setNewComment('');
   };
 
   return (
     <div className="comment-component">
-      
+
       <Form className="comment-form">
         <Form.Control
           type="text"
@@ -32,9 +47,9 @@ const CommentComponent = () => {
       </Form>
       <ListGroup>
         {comments.map((comment) => (
-          <ListGroup.Item  key={comment.id}>
-              {comment.content}
-            </ListGroup.Item>
+          <ListGroup.Item key={comment.id}>
+            {comment.content}
+          </ListGroup.Item>
         ))}
       </ListGroup>
     </div>

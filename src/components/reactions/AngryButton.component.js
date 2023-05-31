@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import angry from '../../img/angry.png';
 import { Button, Image } from 'react-bootstrap';
 import kafkaService from '../../services/kafka.service';
+import { useAuth } from '../../context/AuthContext';
 
-
-
-function AngryButton() {
+function AngryButton({pubId}) {
+    const {user}= useAuth();
     const [angries, setLikes] = useState(0);
     const [angried, setLiked] = useState(false);
 
@@ -13,16 +13,12 @@ function AngryButton() {
         backgroundColor: 'transparent',
     };
 
+
     function saveLike(e, status) {
-  
-        let data = {
-          id: 0,
-          status: status
-        };
-     
-        console.log(JSON.stringify(data));
-     
-        kafkaService.reaction("angry");
+        const uId= user.uid;    
+        const oId= pubId;
+        const rId= "angry"
+        kafkaService.reaction(uId, oId, rId);
         e.preventDefault();
     }
    
